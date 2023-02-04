@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-public class catScript : MonoBehaviour
-{
+public class catScript: MonoBehaviour {
     public LayerMask whatIsGround;
-    public int vidasGato ;
+    public int vidasGato;
     public int vidaAtual;
     public float jumpForce;
     private Rigidbody2D corpoGato;
     private Animator animatorGato;
     private Transform transformGato;
     public bool lookRight;
-    private float  horizontal;
+    private float horizontal;
     public float catSpeed;
     private Vector3 direcaoPeronagem = Vector3.right;
     public bool grounded;
@@ -22,12 +21,14 @@ public class catScript : MonoBehaviour
     public Rigidbody2D PlatformRB;
     public int timesFoundMom;
     public TextMeshProUGUI momCounter;
+    private GameController gameController;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
+        gameController = FindObjectOfType(typeof(GameController)) as GameController;
         corpoGato = GetComponent<Rigidbody2D>();
         animatorGato = GetComponent<Animator>();
         transformGato = GetComponent<Transform>();
@@ -37,6 +38,9 @@ public class catScript : MonoBehaviour
     }
 
     private void FixedUpdate() {
+        if(gameController.currentState != GameController.GameState.GAMEPLAY) {
+            return;
+        }
         if(isOnPlatform) {
             corpoGato.velocity = new Vector2(PlatformRB.velocity.x,PlatformRB.velocity.y ) + corpoGato.velocity;
         }
@@ -45,9 +49,11 @@ public class catScript : MonoBehaviour
     }
     void Update()
     {
-        
+        if(gameController.currentState != GameController.GameState.GAMEPLAY) {
+            return;
+        }
 
-        if(Input.GetButtonDown("Jump") && grounded) {
+        if(Input.GetButtonDown("Jump") && grounded ) {
             jump = true;
  
         }
@@ -88,8 +94,12 @@ public class catScript : MonoBehaviour
 
             default: break;
             case "Win":
+            collision.gameObject.SendMessage("Teleport",SendMessageOptions.DontRequireReceiver);
+            gameController.currentState = GameController.GameState.GAMESTOP;
             Debug.Log("You Won!!!");
+
             timesFoundMom++;
+            IncreaseSize();
             momCounter.text = timesFoundMom.ToString("N0");
 
             break;
@@ -117,13 +127,17 @@ public class catScript : MonoBehaviour
     void Jump() {
         if(jump) {
           corpoGato.velocity = Vector2.up * jumpForce;
-           // corpoGato.AddForce(Vector2.up * jumpForce);
+           
             jump= false;
         }
     }
     void CheckGround() {
         grounded = Physics2D.OverlapCircle(groundCheck.position,0.03f, whatIsGround); // circulo que checa se o personagem esta tocando o chão
       
+    }
+    public void IncreaseSize() {
+
+        this.transform.localScale += new Vector3(0.2f,0.2f,0);
     }
 
 }

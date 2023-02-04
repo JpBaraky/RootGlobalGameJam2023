@@ -7,6 +7,9 @@ public class randomPosition: MonoBehaviour {
     public GameObject catMom;
     public GameObject[] randomLocations;
 
+    private int lastRandomNumber;
+    private int randomNumber;
+
 
 
     public void Start() {
@@ -17,7 +20,20 @@ public class randomPosition: MonoBehaviour {
 
 
     public void RandomPosition() {
-        catMom.transform.position = randomLocations[Random.Range(0,randomLocations.Length)].transform.position;
+
+
+
+        
+              
+                catMom.transform.position = randomLocations[Random.Range(0,randomLocations.Length)].transform.position;
+            
+        
+      
+          
+           
+        
+        
+
     }
 }
 

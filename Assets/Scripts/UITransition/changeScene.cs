@@ -13,6 +13,9 @@ public class changeScene : MonoBehaviour
     void Start()
     {
        fadeBackground = FindObjectOfType(typeof(fadeBackground)) as fadeBackground;
+        if(isChangeScene) {
+            StartCoroutine("changeSceneFadeOut");
+        }
     }
 
     // Update is called once per frame
