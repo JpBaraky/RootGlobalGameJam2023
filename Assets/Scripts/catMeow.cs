@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class catMeow : MonoBehaviour
 {
@@ -8,17 +10,23 @@ public class catMeow : MonoBehaviour
     public AudioSource momSound;
     public ParticleSystem rippleEffect;
     public ParticleSystem rippleEffectMom;
-    // Start is called before the first frame update
+    public int numberOfMeows;
+    public TextMeshProUGUI meowCounter;
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         if(Input.GetButtonDown("Meow") && !catSound.isPlaying) {
             StartCoroutine(CatMeow());
+            numberOfMeows++;
+        }
+        if(meowCounter != null) {
+            meowCounter.text = numberOfMeows.ToString("N0");
 
         }
     }

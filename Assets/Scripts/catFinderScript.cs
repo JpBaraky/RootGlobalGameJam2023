@@ -40,11 +40,11 @@ public class catFinderScript : MonoBehaviour
             }
             Vector3 pointerWorldPosition = uiCamera.ScreenToWorldPoint(cappedTargetScreenPosition);
             pointerTransform.position = pointerWorldPosition;
-            pointerTransform.localPosition = new Vector3(pointerTransform.localPosition.x,pointerTransform.localPosition.y,10f);
+            pointerTransform.localPosition = new Vector3(pointerTransform.localPosition.x,pointerTransform.localPosition.y,0f);
         } else {
             Vector3 pointerWorldPosition = uiCamera.ScreenToWorldPoint(targetPositionScreenPoint);
             pointerTransform.position = pointerWorldPosition;
-            pointerTransform.localPosition = new Vector3(pointerTransform.localPosition.x,pointerTransform.localPosition.y,10f);
+            pointerTransform.localPosition = new Vector3(pointerTransform.localPosition.x,pointerTransform.localPosition.y,0f);
 
         }
     }

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class catScript : MonoBehaviour
 {
     public LayerMask whatIsGround;
@@ -18,6 +18,10 @@ public class catScript : MonoBehaviour
     public bool grounded;
     public Transform groundCheck;
     private bool jump;
+    private bool isOnPlatform;
+    public Rigidbody2D PlatformRB;
+    public int timesFoundMom;
+    public TextMeshProUGUI momCounter;
 
 
 
@@ -33,14 +37,19 @@ public class catScript : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        
-        
+        if(isOnPlatform) {
+            corpoGato.velocity = new Vector2(PlatformRB.velocity.x,PlatformRB.velocity.y ) + corpoGato.velocity;
+        }
+
         Jump();
     }
     void Update()
     {
+        
+
         if(Input.GetButtonDown("Jump") && grounded) {
             jump = true;
+ 
         }
         AndarGato();
         if (horizontal > 0 && lookRight)
@@ -57,7 +66,8 @@ public class catScript : MonoBehaviour
     void AndarGato(){
     horizontal = Input.GetAxis("Horizontal");
     corpoGato.velocity = new Vector2(horizontal * catSpeed, corpoGato.velocity.y);
-    if(horizontal != 0){
+        
+        if(horizontal != 0){
     animatorGato.SetBool("GatoAndando", true);
     }
     else{
@@ -79,7 +89,29 @@ public class catScript : MonoBehaviour
             default: break;
             case "Win":
             Debug.Log("You Won!!!");
+            timesFoundMom++;
+            momCounter.text = timesFoundMom.ToString("N0");
+
             break;
+            case "MovingPlatform":
+                isOnPlatform= true;
+                PlatformRB = collision.GetComponentInParent<Rigidbody2D>();
+            break;
+
+        }
+    }
+    
+    private void OnTriggerExit2D(Collider2D collision) {
+        switch(collision.gameObject.tag) {
+
+            default:
+            break;
+          
+            case "MovingPlatform":
+            isOnPlatform= false;
+
+            break;
+
         }
     }
     void Jump() {
@@ -93,4 +125,5 @@ public class catScript : MonoBehaviour
         grounded = Physics2D.OverlapCircle(groundCheck.position,0.03f, whatIsGround); // circulo que checa se o personagem esta tocando o chão
       
     }
+
 }

@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Win
+  - Random Location
+  - ElevatorTrigger
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX
@@ -39,9 +42,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: UI
-    uniqueID: 1927533819
+  - name: BackGround
+    uniqueID: 2427690137
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 1927533819
     locked: 0
