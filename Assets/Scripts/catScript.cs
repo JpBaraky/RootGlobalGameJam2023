@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class catScript : MonoBehaviour
 {
+    public LayerMask whatIsGround;
     public int vidasGato ;
     public int vidaAtual;
+    public float jumpForce;
     private Rigidbody2D corpoGato;
     private Animator animatorGato;
     private Transform transformGato;
@@ -13,6 +15,9 @@ public class catScript : MonoBehaviour
     private float  horizontal;
     public float catSpeed;
     private Vector3 direcaoPeronagem = Vector3.right;
+    public bool grounded;
+    public Transform groundCheck;
+    private bool jump;
 
 
 
@@ -27,12 +32,15 @@ public class catScript : MonoBehaviour
         vidaAtual = vidasGato;
     }
 
-    // Update is called once per frame
+    private void FixedUpdate() {
+        
+        
+        Jump();
+    }
     void Update()
     {
-        if(vidaAtual == 0 ){
-        
-        
+        if(Input.GetButtonDown("Jump") && grounded) {
+            jump = true;
         }
         AndarGato();
         if (horizontal > 0 && lookRight)
@@ -43,6 +51,7 @@ public class catScript : MonoBehaviour
         {
             FlipCat();
         }
+        CheckGround();
         //---
     }
     void AndarGato(){
@@ -63,5 +72,25 @@ public class catScript : MonoBehaviour
 
             direcaoPeronagem.x = x;
 
+    }
+    void OnTriggerEnter2D(Collider2D collision) {
+        switch(collision.gameObject.tag) {
+
+            default: break;
+            case "Win":
+            Debug.Log("You Won!!!");
+            break;
+        }
+    }
+    void Jump() {
+        if(jump) {
+          corpoGato.velocity = Vector2.up * jumpForce;
+           // corpoGato.AddForce(Vector2.up * jumpForce);
+            jump= false;
+        }
+    }
+    void CheckGround() {
+        grounded = Physics2D.OverlapCircle(groundCheck.position,0.03f, whatIsGround); // circulo que checa se o personagem esta tocando o chão
+      
     }
 }
