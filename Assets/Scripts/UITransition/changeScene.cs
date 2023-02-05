@@ -25,6 +25,10 @@ public class changeScene : MonoBehaviour
             catOutOfBox.catIsOut = false;
          StartCoroutine("changeSceneFadeOut");
         }
+        if(isChangeScene) {
+            isChangeScene = false;
+         StartCoroutine("changeSceneFadeOut");
+        }
         
     }
      IEnumerator changeSceneFadeOut() {

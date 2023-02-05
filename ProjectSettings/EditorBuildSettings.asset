@@ -6,6 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/CatLogoScene/Logo Gato.unity
+    guid: 090604e512731ee40913f7afa4a19f4e
+  - enabled: 1
+    path: Assets/Scenes/OpeningCutScene.unity
+    guid: e1b41c37e8d2e3242a69b39a5cd05b48
+  - enabled: 1
     path: Assets/Scenes/PlayScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/CutScene.unity
+    guid: 0173fc8817ed3094ca1198b43f6cea0c
+  - enabled: 1
+    path: Assets/Scenes/EndCredits.unity
+    guid: f5faa5c85025eda46a72f204d01b9904
   m_configObjects: {}

@@ -13,7 +13,7 @@ public class catFinderScript : MonoBehaviour
 
     private void Update() {
 
-        targetPosition = catMom.transform.position;
+        targetPosition = new Vector3(catMom.transform.position.x, catMom.transform.position.y, 1);
         
         Vector3 toPosition = targetPosition;
         Vector3 fromPosition = Camera.main.transform.position;

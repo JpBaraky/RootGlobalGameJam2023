@@ -22,6 +22,8 @@ public class catScript: MonoBehaviour {
     public int timesFoundMom;
     public TextMeshProUGUI momCounter;
     private GameController gameController;
+    public GameObject exclamationMark;
+   
 
 
 
@@ -49,10 +51,17 @@ public class catScript: MonoBehaviour {
     }
     void Update()
     {
+        
         if(gameController.currentState != GameController.GameState.GAMEPLAY) {
+            corpoGato.velocity = new Vector2(0,0);
+            animatorGato.SetBool("GatoAndando",false);
             return;
         }
-
+        if(lookRight) {
+            this.transform.localScale = new Vector3(Mathf.Sign(this.transform.localScale.x) * 1 - (0.33f * timesFoundMom),Mathf.Sign(this.transform.localScale.y) * 1 + (0.33f * timesFoundMom),this.transform.localScale.z);
+        } else {
+            this.transform.localScale = new Vector3(Mathf.Sign(this.transform.localScale.x) * 1 + (0.33f * timesFoundMom),Mathf.Sign(this.transform.localScale.y) * 1 + (0.33f * timesFoundMom),this.transform.localScale.z);
+        }
         if(Input.GetButtonDown("Jump") && grounded ) {
             jump = true;
  
@@ -68,6 +77,7 @@ public class catScript: MonoBehaviour {
         }
         CheckGround();
         //---
+        exclamationMark.transform.localScale = new Vector3(Mathf.Sign(this.transform.localScale.x), Mathf.Sign(this.transform.localScale.y), 1);
     }
     void AndarGato(){
     horizontal = Input.GetAxis("Horizontal");
@@ -85,7 +95,7 @@ public class catScript: MonoBehaviour {
        float x = transform.localScale.x;
             x *= -1; //inverter sinal int ou float;
             transform.localScale = new Vector3(x, transform.localScale.y, transform.localScale.z); //passa valor do X novo para o scale.
-
+            
             direcaoPeronagem.x = x;
 
     }
@@ -95,11 +105,13 @@ public class catScript: MonoBehaviour {
             default: break;
             case "Win":
             collision.gameObject.SendMessage("Teleport",SendMessageOptions.DontRequireReceiver);
+            
             gameController.currentState = GameController.GameState.GAMESTOP;
             Debug.Log("You Won!!!");
-
+            corpoGato.velocity = new Vector2(0,0);
+            animatorGato.SetBool("GatoAndando",false);
             timesFoundMom++;
-            IncreaseSize();
+            
             momCounter.text = timesFoundMom.ToString("N0");
 
             break;
@@ -107,7 +119,10 @@ public class catScript: MonoBehaviour {
                 isOnPlatform= true;
                 PlatformRB = collision.GetComponentInParent<Rigidbody2D>();
             break;
-
+            case "Teleport":
+            collision.gameObject.SendMessage("Teleport",SendMessageOptions.DontRequireReceiver);
+            gameController.currentState = GameController.GameState.GAMESTOP;
+            break;
         }
     }
     
@@ -135,9 +150,6 @@ public class catScript: MonoBehaviour {
         grounded = Physics2D.OverlapCircle(groundCheck.position,0.03f, whatIsGround); // circulo que checa se o personagem esta tocando o chão
       
     }
-    public void IncreaseSize() {
-
-        this.transform.localScale += new Vector3(0.2f,0.2f,0);
-    }
+    
 
 }

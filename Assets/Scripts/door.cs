@@ -7,9 +7,11 @@ public class door : MonoBehaviour
     private fadeBackground fadeBackground;
 
     public catScript catScript;
+    public GameObject catMom;
     public Transform destination;
     private GameController gameController;
     private randomPosition randomPosition;
+   
     // Start is called before the first frame update
     void Start()
     {   randomPosition = FindObjectOfType(typeof (randomPosition)) as randomPosition;
@@ -28,10 +30,14 @@ public class door : MonoBehaviour
         StartCoroutine(triggerDoor());
     }
     IEnumerator triggerDoor() {
+        gameController.currentState = GameController.GameState.GAMESTOP;
         fadeBackground.fadeIn();
         yield return new WaitWhile(() => fadeBackground.fume.color.a < 0.9f); 
         catScript.transform.position = destination.position;
         randomPosition.RandomPosition();
+        if(catScript.timesFoundMom >= 5) {
+            catMom.SetActive(false);
+        }
         fadeBackground.fadeOut();
         gameController.currentState = GameController.GameState.GAMEPLAY;
 

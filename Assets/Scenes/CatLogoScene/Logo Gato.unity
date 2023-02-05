@@ -764,7 +764,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c42f877765eb401408d0ce7324da212c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScene: PlayScene
+  targetScene: OpeningCutScene
   isChangeScene: 0
   secondsToWait: 3
 --- !u!1001 &2028668071
